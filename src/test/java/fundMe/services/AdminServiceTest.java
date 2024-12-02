@@ -14,11 +14,17 @@ public class AdminServiceTest {
         }
 
         @Test
-        public void test_thatAdminExists(){
+        public void test_thatAdminCanBeCreated_adminExists(){
             admin.setUsername("BimBim");
             admin.setPassword("password");
             assertEquals("BimBim", admin.getUsername());
             assertEquals("password", admin.getPassword());
+        }
+        @Test
+        public void test_thatAdminCanBeCreated_adminCanBeDeleted_adminDoesNotExist(){
+            admin.setUsername("BimBim");
+            admin.setPassword("password");
+
         }
 
 }
