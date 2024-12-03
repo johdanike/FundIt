@@ -23,4 +23,5 @@ public class User {
     private String NIN;
     @DBRef
     private Role role;
+    private boolean isRegistered = false;
 }
