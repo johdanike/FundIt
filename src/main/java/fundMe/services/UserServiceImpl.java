@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
             newUser.setLastName(user.getLastName());
             newUser.setRole(user.getRole());
             newUser.setNIN(user.getNIN());
-            newUser.setL
+            newUser.setLoggedIn();
         }
         return "";
     }
