@@ -13,25 +13,13 @@ import java.util.List;
 @Document
 public class Loan {
     @Id
-    @DBRef
-    private int loanID;
-    @DBRef
+    private String loanID;
     private String borrowerId;
-    @DBRef
     private String lenderId;
-    @DBRef
     private Long amount;
-    @DBRef
     private int interestRate;
-    @DBRef
     private String paymentPlan;
-    @DBRef
     private Boolean isCollected;
-    @DBRef
     private Boolean isPaid;
-    @DBRef
     private LocalDateTime dateTime;
-//    @DBRef
-//    private List<String>lender = new ArrayList<>();
-//    private List<String>borrower = new ArrayList<>();
 }

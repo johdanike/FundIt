@@ -4,13 +4,14 @@ import fundMe.data.models.Role;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class AuthenticateRequest {
+@Getter
+public class CreateAccountRequest {
     private String firstName;
     private String lastName;
-    private String username;
+    private String email;
     private String password;
-    private String NIN;
     private Role role;
+    private String NIN;
+
 }
