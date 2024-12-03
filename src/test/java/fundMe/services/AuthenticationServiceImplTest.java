@@ -5,7 +5,7 @@ import fundMe.data.repositories.UserRepo;
 import fundMe.dtos.request.CreateAccountRequest;
 import fundMe.dtos.request.LoginRequest;
 import fundMe.dtos.response.CreateAccountResponse;
-import fundMe.dtos.response.LoginResponse;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,8 @@ public class AuthenticationServiceImplTest {
 
         userRepo.deleteAll();
     }
+
+
     @Test
     void testThatUserCanRegister() {
         CreateAccountRequest request = new CreateAccountRequest();
@@ -34,12 +36,12 @@ public class AuthenticationServiceImplTest {
         request.setLastName("Fabulous");
         request.setUsername("iamFabulous");
         request.setPassword("123456");
+        request.setPassword("password");
         request.setNIN("123456789");
         request.setEmail("test@test.com");
         request.setRole(Role.BORROWER);
         CreateAccountResponse response = authenticationService.Register(request);
         assertNotNull(response);
-
 
     }
 

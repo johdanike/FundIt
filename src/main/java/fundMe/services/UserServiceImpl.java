@@ -1,11 +1,11 @@
-package fundMe.services;
 
 import fundMe.data.models.User;
+import fundMe.services.UserService;
 
 public class UserServiceImpl implements UserService {
     @Override
     public String createUser(User user) {
-        if(user.isRegistered() && user.isLoggedIn()){
+        if (user.isRegistered() && user.isLoggedIn()) {
             User newUser = new User();
             newUser.setUsername(user.getUsername());
             newUser.setPassword(user.getPassword());
@@ -39,8 +39,5 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public void deleteUser(String id) {
-
-    }
 }
+

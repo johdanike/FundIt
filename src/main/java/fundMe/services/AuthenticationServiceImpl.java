@@ -8,20 +8,19 @@ import fundMe.dtos.request.LoginRequest;
 import fundMe.dtos.response.CreateAccountResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import fundMe.dtos.response.CreateAccountResponse;
 import org.springframework.stereotype.Service;
 
 
 @Service
-
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepo userRepo;
+    private int counter = 0;
 
     public AuthenticationServiceImpl(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
-
-
 
     @Override
     public CreateAccountResponse Register(CreateAccountRequest request) {
@@ -51,4 +50,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return user.isLoggedIn();
     }
 
+    @Override
+    public String Login(String username, String password) {
+        return "";
+    }
+
+    @Override
+    public String Logout() {
+        return "";
+    }
+
+    public int count() {
+        return counter++;
+    }
 }
