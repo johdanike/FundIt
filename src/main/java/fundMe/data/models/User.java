@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
     @Id
     @DBRef
-    private int id;
+    private String id;
     @DBRef
     private String firstName;
     @DBRef

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Loan {
     @Id
     @DBRef
-    private int loanID;
+    private String loanID;
     @DBRef
     private Long amount;
     @DBRef
