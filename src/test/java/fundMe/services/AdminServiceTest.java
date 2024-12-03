@@ -1,10 +1,7 @@
 package fundMe.services;
 
-import fundMe.data.models.Admin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class AdminServiceTest {
         Admin admin;
@@ -14,11 +11,21 @@ public class AdminServiceTest {
         }
 
         @Test
-        public void test_thatAdminExists(){
+        public void test_thatAdminCanBeCreated_adminExists(){
             admin.setUsername("BimBim");
             admin.setPassword("password");
             assertEquals("BimBim", admin.getUsername());
             assertEquals("password", admin.getPassword());
+        }
+        @Test
+        public void test_thatAdminCanBeCreated_adminCanBeDeleted_adminDoesNotExist(){
+            admin.setUsername("BimBim");
+            admin.setPassword("password");
+            assertEquals("BimBim", admin.getUsername());
+            assertEquals("password", admin.getPassword());
+            admin.delete("BimBim");
+            assertFalse(admin.getUsername().equals("BimBim"));
+
         }
 
 }
