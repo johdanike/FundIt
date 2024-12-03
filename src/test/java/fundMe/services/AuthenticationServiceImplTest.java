@@ -27,7 +27,6 @@ public class AuthenticationServiceImplTest {
         request.setRole(Role.BORROWER);
         CreateAccountResponse response = authenticationService.Register(request);
         assertNotNull(response);
-
     }
 
 }
