@@ -5,30 +5,22 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Data
 @Document
-public class Borrower {
-    @DBRef
+public class User {
     @Id
-    private String id;
     @DBRef
-    private String name;
+    private int id;
     @DBRef
-    private String password;
+    private String firstName;
     @DBRef
-    private double interestRate;
-    @DBRef
-    private String paymentPlan;
+    private String lastName;
     @DBRef
     private String email;
     @DBRef
-    private boolean isReceived;
+    private String password;
     @DBRef
-    private boolean isReturned;
-    List<String> asset;
-    List<String>borrowerReceipt;
+    private String NIN;
     @DBRef
     private Role role;
 }
