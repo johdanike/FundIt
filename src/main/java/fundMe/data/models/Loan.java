@@ -6,23 +6,20 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Document
 public class Loan {
     @Id
-    @DBRef
-    private int loanID;
-    @DBRef
+    private String loanID;
+    private String borrowerId;
+    private String lenderId;
     private Long amount;
-    @DBRef
     private int interestRate;
-    @DBRef
     private String paymentPlan;
-    @DBRef
     private Boolean isCollected;
-    @DBRef
     private Boolean isPaid;
-    @DBRef
     private LocalDateTime dateTime;
 }

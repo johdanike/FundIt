@@ -9,18 +9,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class User {
     @Id
-    @DBRef
-    private int id;
-    @DBRef
+    private String id;
     private String firstName;
-    @DBRef
     private String lastName;
-    @DBRef
     private String email;
-    @DBRef
     private String password;
-    @DBRef
     private String NIN;
-    @DBRef
     private Role role;
+    private boolean isRegistered = false;
 }
