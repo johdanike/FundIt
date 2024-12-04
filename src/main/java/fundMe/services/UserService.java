@@ -14,6 +14,10 @@ public interface UserService {
     User findUserByUsername(String username);
     User findUserById(String id);
     CreateUpdateResponse updateUser(UpdateUserRequest user);
-    void deleteUser(String id);
-
+    void deleteUser(User user);
+    void deleteById(String id);
+    void deleteAllById(String username, String password);
+    void deleteAll();
+    User findById(String id);
+    boolean existsById(String id);
 }

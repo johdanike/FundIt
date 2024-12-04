@@ -1,8 +1,10 @@
 package fundMe.services;
 
+import fundMe.Exceptions.UserNotFoundException;
 import fundMe.data.models.User;
 import fundMe.data.repositories.UserRepo;
 import fundMe.dtos.request.CreateUserRequest;
+import fundMe.dtos.request.DeleteUserRequest;
 import fundMe.dtos.request.UpdateUserRequest;
 import fundMe.dtos.response.CreateUpdateResponse;
 import fundMe.dtos.response.CreateUserResponse;
@@ -47,7 +49,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     @Override
     public User findUserByEmail(String email) {
         return null;
@@ -72,35 +73,46 @@ public class UserServiceImpl implements UserService {
     public CreateUpdateResponse updateUser(UpdateUserRequest userRequest) {
         UsernameUpdateUserRequestValidator(userRequest);
 
-            UserRepo userRepo = this.userRepo;
-            User existingUser = userRepo.findByUsername(userRequest.getUsername());
-            if (existingUser != null) {
-                existingUser.setPassword(userRequest.getPassword());
-                existingUser.setEmail(userRequest.getEmail());
-                existingUser.setFirstName(userRequest.getFirstName());
-                existingUser.setLastName(userRequest.getLastName());
-                existingUser.setRole(userRequest.getRole());
-                existingUser.setNIN(userRequest.getNIN());
-                existingUser.setLoggedIn(userRequest.isLoggedIn());
+        User existingUser = userRepo.findByUsername(userRequest.getUsername());
 
-                try{
-                    User updatedUser = userRepo.save(existingUser);
-                    return getCreateUpdateResponse(updatedUser);
-                }catch (Exception e){
-                    throw new RuntimeException("Error while updating user", e);
-                }
+        if (existingUser != null) {
+            existingUser.setPassword(userRequest.getPassword());
+            existingUser.setEmail(userRequest.getEmail());
+            existingUser.setFirstName(userRequest.getFirstName());
+            existingUser.setLastName(userRequest.getLastName());
+            existingUser.setRole(userRequest.getRole());
+            existingUser.setNIN(userRequest.getNIN());
+            existingUser.setLoggedIn(userRequest.isLoggedIn());
+
+            try {
+                User updatedUser = userRepo.save(existingUser);
+                return getCreateUpdateResponse(updatedUser);
+
+            } catch (Exception e) {
+                throw new RuntimeException("Error while updating user: " + e.getMessage(), e);
             }
-        else throw new IllegalArgumentException("Not updated successfully");
 
-    }
-
-    private static void UsernameUpdateUserRequestValidator(UpdateUserRequest userRequest) {
-        if(userRequest == null || userRequest.getUsername() == null){
-            throw new IllegalArgumentException("Username cannot be null");
+        } else {
+            throw new UserNotFoundException("User with username " + userRequest.getUsername() + " not found");
         }
     }
 
-    private static CreateUpdateResponse getCreateUpdateResponse(User savedUser) {
+    private static void UsernameUpdateUserRequestValidator(UpdateUserRequest userRequest) {
+        if (userRequest == null) {
+            throw new IllegalArgumentException("User request cannot be null");
+        }
+        if (userRequest.getUsername() == null || userRequest.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty");
+        }
+        if (userRequest.getPassword() == null || userRequest.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+        if (userRequest.getEmail() == null || userRequest.getEmail().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be null or empty");
+        }
+    }
+
+    private CreateUpdateResponse getCreateUpdateResponse(User savedUser) {
         CreateUpdateResponse response = new CreateUpdateResponse();
         response.setMessage("Updated Successfully !!!!");
         response.setUsername(savedUser.getUsername());
@@ -112,29 +124,62 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
-    @Override
-    public void deleteUser(String id) {
 
+    private static void ValidateUsernameAndPassword(DeleteUserRequest userRequest) {
+        if (userRequest == null || userRequest.getUsername() == null){
+            throw new IllegalArgumentException("Username cannot be null");
+        }
     }
 
-}
+    @Override
+    public void deleteUser(User user) {
+        userRepo.delete(user);
+    }
 
-//private static User getUser(UpdateUserRequest updateUserRequest) {
-//        if (updateUserRequest == null) {
-//            throw new IllegalArgumentException("Fill in all details correctly");
+    @Override
+    public void deleteById(String id){
+//        for(User user : userRepo.findAll()){
+            if(userRepo.existsById(id)){
+//                userRepo.delete(user);
+                userRepo.deleteById(id);
+            }
 //        }
-//        User newUser = new User();
-//        newUser.setUsername(updateUserRequest.getUsername());
-//        newUser.setPassword(updateUserRequest.getPassword());
-//        newUser.setEmail(updateUserRequest.getEmail());
-//        newUser.setFirstName(updateUserRequest.getFirstName());
-//        newUser.setLastName(updateUserRequest.getLastName());
-//        newUser.setRole(updateUserRequest.getRole());
-//        newUser.setNIN(updateUserRequest.getNIN());
-//        newUser.setLoggedIn(updateUserRequest.isLoggedIn());
-//
-//        return newUser;
-//    }
+        throw new IllegalArgumentException("User not found");
+    }
+
+    @Override
+    public void deleteAllById(String username, String password){
+        ValidateUsernameAndPassword(new DeleteUserRequest(username, password));
+        for(User user: userRepo.findAll()){
+            if(user.getUsername().equals(username) && user.getPassword().equals(password)){
+                userRepo.delete(user);
+            }
+        }
+    }
+
+    @Override
+    public void deleteAll(){
+        userRepo.deleteAll();
+    }
+
+    @Override
+    public User findById(String id) {
+        for (User user : userRepo.findAll()) {
+            ValidateUsernameAndPassword(new DeleteUserRequest(user.getUsername(), user.getPassword()));
+            if(user.getId().equals(id)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean existsById(String id) {
+        return userRepo.existsById(id);
+    }
+
+
+}
 
 
 
