@@ -7,4 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoanServiceImpl implements LoanService {
 
+    @Override
+    public LoanResponse getLoan(LoanRequest loan) {
+        return null;
+    }
 }

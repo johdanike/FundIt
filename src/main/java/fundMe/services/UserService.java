@@ -1,15 +1,24 @@
 package fundMe.services;
 
 import fundMe.data.models.User;
-import org.springframework.stereotype.Service;
+import fundMe.dtos.request.CreateUserRequest;
+import fundMe.dtos.request.UpdateUserRequest;
+import fundMe.dtos.response.CreateUpdateResponse;
+import fundMe.dtos.response.CreateUserResponse;
+import fundMe.dtos.response.DeleteUserResponse;
 
-@Service
+import java.util.List;
+import java.util.Optional;
+
+
 public interface UserService {
-    String createUser(User user);
+    CreateUserResponse createUser(CreateUserRequest user);
     User findUserByEmail(String email);
-    User findUserByUsername(String username);
-    User findUserById(String id);
-    void updateUser(User user);
-    void deleteUser(String id);
-
+    Optional<User> findUserByUsername(String username);
+    CreateUpdateResponse updateUser(UpdateUserRequest user);
+    DeleteUserResponse deleteById(String id);
+    DeleteUserResponse deleteAll();
+    User findById(String id);
+    boolean existsById(String id);
+    List<User> findAllUsers(String id);
 }

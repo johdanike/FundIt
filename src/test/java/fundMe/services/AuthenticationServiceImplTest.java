@@ -6,6 +6,7 @@ import fundMe.dtos.request.CreateAccountRequest;
 import fundMe.dtos.request.LoginRequest;
 import fundMe.dtos.response.CreateAccountResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@Slf4j
 @SpringBootTest
 public class AuthenticationServiceImplTest {
 
@@ -30,7 +32,7 @@ public class AuthenticationServiceImplTest {
 
 
     @Test
-    void testThatUserCanRegister() {
+    public void testThatUserCanRegister() {
         CreateAccountRequest request = new CreateAccountRequest();
         request.setFirstName("Iam");
         request.setLastName("Fabulous");
@@ -42,11 +44,10 @@ public class AuthenticationServiceImplTest {
         request.setRole(Role.BORROWER);
         CreateAccountResponse response = authenticationService.Register(request);
         assertNotNull(response);
-
     }
 
     @Test
-    void testThatUserCanLogin() {
+    public void testThatUserCanLogin() {
         CreateAccountRequest request = new CreateAccountRequest();
         request.setFirstName("Iam");
         request.setLastName("Fabulous");
@@ -66,6 +67,32 @@ public class AuthenticationServiceImplTest {
         boolean loginResponse = authenticationService.login(loginRequest);
         assertTrue( loginResponse);
 
+    }
+
+    @Test
+    public void testThatUserCanLogout() {
+        CreateAccountRequest request = new CreateAccountRequest();
+        request.setFirstName("Iam");
+        request.setLastName("Fabulous");
+        request.setUsername("iamFabulous");
+        request.setPassword("123456");
+        request.setNIN("123456789");
+        request.setEmail("test@test.com");
+        request.setRole(Role.BORROWER);
+        CreateAccountResponse response = authenticationService.Register(request);
+        assertNotNull(response);
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername(loginRequest.getUsername());
+//        loginRequest.getUsername();
+        loginRequest.setPassword(loginRequest.getPassword());
+//        loginRequest.getPassword();
+        boolean loginResponse = authenticationService.login(loginRequest);
+        assertTrue( loginResponse);
+
+//        boolean logOut = authenticationService.logout();
+//        assertEquals("Logged Out Successfully", logOut);
+        assertTrue(authenticationService.logout());
     }
 
 }

@@ -6,9 +6,6 @@ import fundMe.data.repositories.UserRepo;
 import fundMe.dtos.request.CreateAccountRequest;
 import fundMe.dtos.request.LoginRequest;
 import fundMe.dtos.response.CreateAccountResponse;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import fundMe.dtos.response.CreateAccountResponse;
 import org.springframework.stereotype.Service;
 
 
@@ -31,7 +28,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setEmail(request.getEmail());
         user.setNIN(request.getNIN());
         user.setRole(Role.BORROWER);
-//        user.setLoggedIn(userRepo);
         user.setLoggedIn(false);
         userRepo.save(user);
         CreateAccountResponse response = new CreateAccountResponse();
@@ -45,19 +41,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (user == null) {
             throw new IllegalArgumentException("Invalid username or password!");
         }
+        user.setUsername(loginRequest.getUsername());
+        user.setPassword(loginRequest.getPassword());
         user.setLoggedIn(true);
         System.out.println("Logged In Successfully");
         return user.isLoggedIn();
     }
 
     @Override
-    public String Login(String username, String password) {
-        return "";
-    }
-
-    @Override
-    public String Logout() {
-        return "";
+    public boolean logout() {
+        User user = new User();
+        if(!user.isLoggedIn()){
+            throw new IllegalArgumentException("Invalid username or password!");
+        }
+        user.setLoggedIn(false);
+        return user.isLoggedIn();
     }
 
     public int count() {
