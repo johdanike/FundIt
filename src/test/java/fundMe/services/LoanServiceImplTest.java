@@ -16,8 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LoanServiceImplTest {
     @Autowired
     private LoanServiceImpl loanService;
-    @Autowired
-    private LoanRepo loanRepo;
     private LoanRequest loanRequest;
 
     @BeforeEach
