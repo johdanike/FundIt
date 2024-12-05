@@ -1,0 +1,26 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="IncorrectHttpHeaderInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="customHeaders">
+        <set>
+          <option value="        loanResponse.setBorrowerId(userLoan.getBorrowerId());" />
+          <option value="        loanResponse.setLenderId(userLoan.getLenderId());" />
+          <option value="        loanResponse.setMessage(&quot;Loan request successful&quot;);" />
+          <option value="        LoanResponse loanResponse = new LoanResponse();" />
+          <option value="        loanRepo.save(userLoan);" />
+          <option value="        userLoan.setIsCollected(loan.getIsCollected());" />
+          <option value="        userLoan.setIsPaid(loan.getIsPaid());" />
+          <option value="        userLoan.setLoanID(loan.getLoanId());" />
+          <option value="        userLoan.setBorrowerId(loan.getUserId());" />
+          <option value="        userLoan.setLenderId(loan.getUserId());" />
+          <option value="        userLoan.setInterestRate(loan.getInterestRate());" />
+          <option value="        userLoan.setPaymentPlan(PaymentPlan.valueOf(loan.getPaymentPlan()));" />
+          <option value="        userLoan.setAmount(loan.getLoanAmount());" />
+          <option value="        userLoan.setDateTime(loan.getDateTime());" />
+          <option value="        loanResponse.setLoanId(userLoan.getLoanID());" />
+        </set>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

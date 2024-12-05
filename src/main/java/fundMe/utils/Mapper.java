@@ -1,18 +1,19 @@
 package fundMe.utils;
 
 import fundMe.data.models.Loan;
+import fundMe.data.models.PaymentPlan;
 import fundMe.dtos.request.LoanRequest;
 
 public class Mapper {
 
-    public static Loan Map(LoanRequest loanRequest) {
+    public static Loan map(LoanRequest loanRequest) {
         Loan loan = new Loan();
-        loan.setAmount((long) loanRequest.getLoanAmount());
+        loan.setAmount(loanRequest.getLoanAmount());
         loan.setDateTime(loanRequest.getDateTime());
         loan.setInterestRate(loanRequest.getInterestRate());
-        loan.setIsCollected(loanRequest.isCollected());
+        loan.setIsCollected(loanRequest.getIsCollected());
         loan.setIsPaid(loanRequest.getDateTime().isEqual(loan.getDateTime()));
-        loan.setPaymentPlan(loanRequest.getPaymentPlan());
+        loan.setPaymentPlan(PaymentPlan.valueOf(loanRequest.getPaymentPlan()));
 
         return loan;
     }

@@ -19,7 +19,7 @@ public class Loan {
     private String lenderId;
     private Double amount;
     private Double interestRate;
-    private String paymentPlan;
+    private PaymentPlan paymentPlan;
     private Boolean isCollected;
     private Boolean isPaid;
     private LocalDateTime dateTime;

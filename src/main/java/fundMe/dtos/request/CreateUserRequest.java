@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CreateUserRequest {
-    private String id;
     private String firstName;
     private String lastName;
     private String email;
@@ -15,6 +14,4 @@ public class CreateUserRequest {
     private Role role;
     private String NIN;
     private String username;
-    private boolean isRegistered;
-    private boolean isLoggedIn;
 }
