@@ -39,6 +39,7 @@ public class UserServiceImpl implements UserService {
             newUser.setLoggedIn(true);
             newUser.setRegistered(true);
             userRepo.save(newUser);
+
             CreateUserResponse response = new CreateUserResponse();
             response.setEmail(newUser.getEmail());
             response.setId(newUser.getId());
@@ -139,6 +140,7 @@ public class UserServiceImpl implements UserService {
         userRepo.delete(user);
         DeleteUserResponse deleteUserResponse = new DeleteUserResponse();
         deleteUserResponse.setMessage("Deleted Successfully !!!!");
+        deleteUserResponse.setId(user.getId());
         return deleteUserResponse;
     }
 
@@ -146,7 +148,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public DeleteUserResponse deleteAll(){
         userRepo.deleteAll();
-        return null;
+        DeleteUserResponse response = new DeleteUserResponse();
+        response.setMessage("Deleted Successfully !!!!");
+        return response;
     }
 
     @Override

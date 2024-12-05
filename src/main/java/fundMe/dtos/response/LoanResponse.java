@@ -6,6 +6,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class LoanResponse {
-    private String id;
+    private String loanId;
     private String message;
+    private String lenderId;
+    private String borrowerId;
 }
