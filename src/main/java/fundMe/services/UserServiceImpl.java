@@ -1,5 +1,7 @@
 package fundMe.services;
 
+import fundMe.Exceptions.UserAlreadyExistException;
+import fundMe.Exceptions.UserNameFieldCannotBeEmptyException;
 import fundMe.Exceptions.UserNotFoundException;
 import fundMe.data.models.User;
 import fundMe.data.repositories.UserRepo;
@@ -8,6 +10,7 @@ import fundMe.dtos.request.DeleteUserRequest;
 import fundMe.dtos.request.UpdateUserRequest;
 import fundMe.dtos.response.CreateUpdateResponse;
 import fundMe.dtos.response.CreateUserResponse;
+import fundMe.dtos.response.DeleteUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +23,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CreateUserResponse createUser(CreateUserRequest user) {
-        CreateUserResponse response = new CreateUserResponse();
         UsernameCreateUserRequestValidator(user);
 
             User newUser = new User();
@@ -31,48 +33,39 @@ public class UserServiceImpl implements UserService {
             newUser.setLastName(user.getLastName());
             newUser.setRole(user.getRole());
             newUser.setNIN(user.getNIN());
-            newUser.setLoggedIn(user.isLoggedIn());
-
-            try{
-                User savedUser = userRepo.save(newUser);
-                response.setMessage("Created Successfully !!!!");
-            }catch (Exception e){
-                response.setMessage("Invalid input: "+e.getMessage());
-            }
-
+            newUser.setLoggedIn(true);
+            newUser.setRegistered(true);
+            userRepo.save(newUser);
+            CreateUserResponse response = new CreateUserResponse();
+            response.setEmail(newUser.getEmail());
+            response.setId(newUser.getId());
+            response.setUsername(newUser.getUsername());
+            response.setMessage("User created successful");
             return response;
     }
 
+
+
     private static void UsernameCreateUserRequestValidator(CreateUserRequest userRequest) {
         if(userRequest == null || userRequest.getUsername() == null){
-            throw new IllegalArgumentException("Username cannot be null");
+            throw new UserNameFieldCannotBeEmptyException("Username cannot be null");
         }
     }
 
+
     @Override
     public User findUserByEmail(String email) {
-        return null;
+        return userRepo.findByEmail(email).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 
     @Override
     public User findUserByUsername(String username) {
-        return null;
-    }
-
-    private User getExistingUser(){
-        CreateUserRequest userRequest = new CreateUserRequest();
-        return userRepo.findByUsername(userRequest.getUsername());
-    }
-
-    @Override
-    public User findUserById(String id) {
-        return getExistingUser();
+        return userRepo.findByUsername(username);
     }
 
     @Override
     public CreateUpdateResponse updateUser(UpdateUserRequest userRequest) {
         UsernameUpdateUserRequestValidator(userRequest);
-
         User existingUser = userRepo.findByUsername(userRequest.getUsername());
 
         if (existingUser != null) {
@@ -137,25 +130,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(String id){
-//        for(User user : userRepo.findAll()){
-            if(userRepo.existsById(id)){
-//                userRepo.delete(user);
-                userRepo.deleteById(id);
-            }
-//        }
-        throw new IllegalArgumentException("User not found");
+    public DeleteUserResponse deleteById(String id){
+        User user =  userRepo.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("user not found"));
+        userRepo.delete(user);
+        DeleteUserResponse deleteUserResponse = new DeleteUserResponse();
+        deleteUserResponse.setMessage("Deleted Successfully !!!!");
+        return deleteUserResponse;
     }
 
-    @Override
-    public void deleteAllById(String username, String password){
-        ValidateUsernameAndPassword(new DeleteUserRequest(username, password));
-        for(User user: userRepo.findAll()){
-            if(user.getUsername().equals(username) && user.getPassword().equals(password)){
-                userRepo.delete(user);
-            }
-        }
-    }
 
     @Override
     public void deleteAll(){

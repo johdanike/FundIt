@@ -8,4 +8,7 @@ import lombok.Setter;
 @Setter
 public class CreateUserResponse {
     private String message;
+    private String email;
+    private String username;
+    private String id;
 }

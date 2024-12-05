@@ -6,5 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class DeleteUserResponse {
+    private String id;
     private String message;
 }

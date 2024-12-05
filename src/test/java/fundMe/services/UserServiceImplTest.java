@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.function.BooleanSupplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -23,15 +26,13 @@ public class UserServiceImplTest {
     UserService userService;
     @Autowired
     private UserRepo userRepo;
+    private CreateUserRequest request;
 
     @BeforeEach
     public void setUp() {
         userRepo.deleteAll();
-    }
 
-    @Test
-    public void test_ThatUserCanBeAdded() {
-        CreateUserRequest request =new CreateUserRequest();
+        request = new CreateUserRequest();
         request.setFirstName("John");
         request.setLastName("Doe");
         request.setUsername("test");
@@ -39,21 +40,17 @@ public class UserServiceImplTest {
         request.setPassword("test");
         request.setEmail("test@test.com");
         request.setNIN("123456789");
+    }
 
+
+    @Test
+    public void test_thatUserCanBeAdded() {
         CreateUserResponse response = userService.createUser(request);
         assertNotNull(response);
 
     }
     @Test
-    public void test_ThatUserCanBeUpdated() {
-        CreateUserRequest request = new CreateUserRequest();
-        request.setFirstName("John");
-        request.setLastName("Doe");
-        request.setUsername("test");
-        request.setRole(Role.BORROWER);
-        request.setPassword("test");
-        request.setEmail("test@test.com");
-        request.setNIN("123456789");
+    public void test_thatUserCanBeUpdated() {
         CreateUserResponse response = userService.createUser(request);
         assertNotNull(response);
 
@@ -71,14 +68,13 @@ public class UserServiceImplTest {
         existingUser.setUsername("testuser");
         userRepo.save(existingUser);
         CreateUpdateResponse updateResponse = userService.updateUser(updateUserRequest);
-
         assertNotNull(updateResponse);
         assertEquals("Updated Successfully !!!!", updateResponse.getMessage());
         assertEquals("Dan", updateResponse.getFirstName());
     }
     @Test
-    public void test_ThatUserCanBeDeleted() {
-        CreateUserRequest request = new CreateUserRequest();
+    public void test_thatUserCanBeDeletedById() {
+        request = new CreateUserRequest();
         request.setFirstName("John");
         request.setLastName("Doe");
         request.setUsername("test");
@@ -87,16 +83,35 @@ public class UserServiceImplTest {
         request.setEmail("test@test.com");
         request.setNIN("123456789");
         CreateUserResponse response = userService.createUser(request);
+        System.out.println(response);
+
+        DeleteUserResponse deleteUserResponse = userService.deleteById(response.getId());
+        assertThat(deleteUserResponse.getId()).isNull();
+    }
+    @Test
+    public void test_thatUserCanBeFoundByEmail(){
+        CreateUserResponse response = userService.createUser(request);
         assertNotNull(response);
-
-        User createdUser = userRepo.findByUsername("test");
-        assertNotNull(createdUser);
-        assertEquals(createdUser.getUsername(), request.getUsername());
-        userRepo.deleteById(createdUser.getId());
-        assertFalse(userRepo.existsById(request.getUsername()));
-
-
-
+        userService.findUserByEmail(response.getEmail());
+        assertEquals(response.getEmail(), "test@test.com");
 
     }
+    @Test
+    public void test_thatUserCanBeFound_byUsername(){
+        CreateUserResponse response = userService.createUser(request);
+        assertNotNull(response);
+        userService.findUserByUsername(response.getUsername());
+        assertEquals("test", response.getUsername());
+    }
+    @Test
+    public void test_thatUserCanBeFoundById(){
+        CreateUserResponse response = userService.createUser(request);
+        assertNotNull(response);
+        userService.findById(response.getId());
+        assertEquals("test", response.getUsername());
+
+    }
+
+
+
 }

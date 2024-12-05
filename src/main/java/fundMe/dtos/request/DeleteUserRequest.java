@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class DeleteUserRequest {
+//    private String id;
     private String username;
     private String password;
 }
