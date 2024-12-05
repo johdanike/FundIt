@@ -4,7 +4,6 @@ import fundMe.data.models.Role;
 import fundMe.data.models.User;
 import fundMe.data.repositories.UserRepo;
 import fundMe.dtos.request.CreateUserRequest;
-import fundMe.dtos.request.DeleteUserRequest;
 import fundMe.dtos.request.UpdateUserRequest;
 import fundMe.dtos.response.CreateUpdateResponse;
 import fundMe.dtos.response.CreateUserResponse;
@@ -13,9 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.function.BooleanSupplier;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,5 +1,6 @@
 package fundMe.services;
 
+import fundMe.Exceptions.UserAlreadyExistException;
 import fundMe.Exceptions.UserNameFieldCannotBeEmptyException;
 import fundMe.Exceptions.UserNotFoundException;
 import fundMe.data.models.User;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -60,9 +62,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByUsername(String username) {
-        return userRepo.findByUsername(username);
+    public Optional<User> findUserByUsername(String username) {
+        User user = userRepo.findByUsername(username);
+        if (user == null) {
+            throw new UserNotFoundException("User not found");
+        }
+        return Optional.of(user);
     }
+
 
     @Override
     public CreateUpdateResponse updateUser(UpdateUserRequest userRequest) {
@@ -87,7 +94,7 @@ public class UserServiceImpl implements UserService {
             }
 
         } else {
-            throw new UserNotFoundException("User with username " + userRequest.getUsername() + " not found");
+            throw new UserAlreadyExistException("User with username " + userRequest.getUsername() + " already exists!");
         }
     }
 

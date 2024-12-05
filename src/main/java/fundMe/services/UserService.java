@@ -8,12 +8,13 @@ import fundMe.dtos.response.CreateUserResponse;
 import fundMe.dtos.response.DeleteUserResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface UserService {
     CreateUserResponse createUser(CreateUserRequest user);
     User findUserByEmail(String email);
-    User findUserByUsername(String username);
+    Optional<User> findUserByUsername(String username);
     CreateUpdateResponse updateUser(UpdateUserRequest user);
     DeleteUserResponse deleteById(String id);
     DeleteUserResponse deleteAll();

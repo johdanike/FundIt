@@ -1,6 +1,5 @@
 package fundMe.dtos.response;
 
-import fundMe.data.models.User;
 import lombok.Getter;
 import lombok.Setter;
 
