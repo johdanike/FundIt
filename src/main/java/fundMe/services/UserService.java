@@ -6,7 +6,8 @@ import fundMe.dtos.request.UpdateUserRequest;
 import fundMe.dtos.response.CreateUpdateResponse;
 import fundMe.dtos.response.CreateUserResponse;
 import fundMe.dtos.response.DeleteUserResponse;
-import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 public interface UserService {
@@ -14,10 +15,9 @@ public interface UserService {
     User findUserByEmail(String email);
     User findUserByUsername(String username);
     CreateUpdateResponse updateUser(UpdateUserRequest user);
-    void deleteUser(User user);
     DeleteUserResponse deleteById(String id);
-//    void deleteAllById(String username, String password);
-    void deleteAll();
+    DeleteUserResponse deleteAll();
     User findById(String id);
     boolean existsById(String id);
+    List<User> findAllUsers(String id);
 }

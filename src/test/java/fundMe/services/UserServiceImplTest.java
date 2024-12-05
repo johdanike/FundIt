@@ -109,7 +109,28 @@ public class UserServiceImplTest {
         assertNotNull(response);
         userService.findById(response.getId());
         assertEquals("test", response.getUsername());
-
+    }
+    @Test
+    public void test_thatAllUsersCanBeDeleted() {
+        CreateUserResponse response = userService.createUser(request);
+        assertNotNull(response);
+        DeleteUserResponse deleteUserResponse = userService.deleteAll();
+        assertThat(deleteUserResponse).isNull();
+    }
+    @Test
+    public void test_thatAllUsersCanBeFound() {
+        CreateUserResponse response = userService.createUser(request);
+        assertNotNull(response);
+        userService.findAllUsers(response.getId());
+        assertThat(response).isNotNull();
+    }
+    @Test
+    public void test_thatUserExists(){
+        CreateUserResponse response = userService.createUser(request);
+        assertNotNull(response);
+        String userId  = response.getId();
+        boolean userExists =  userService.existsById(userId);
+        assertTrue(userExists);
     }
 
 

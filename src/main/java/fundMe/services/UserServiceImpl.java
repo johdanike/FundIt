@@ -1,6 +1,5 @@
 package fundMe.services;
 
-import fundMe.Exceptions.UserAlreadyExistException;
 import fundMe.Exceptions.UserNameFieldCannotBeEmptyException;
 import fundMe.Exceptions.UserNotFoundException;
 import fundMe.data.models.User;
@@ -13,6 +12,8 @@ import fundMe.dtos.response.CreateUserResponse;
 import fundMe.dtos.response.DeleteUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -125,11 +126,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(User user) {
-        userRepo.delete(user);
-    }
-
-    @Override
     public DeleteUserResponse deleteById(String id){
         User user =  userRepo.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("user not found"));
@@ -141,8 +137,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void deleteAll(){
+    public DeleteUserResponse deleteAll(){
         userRepo.deleteAll();
+        return null;
     }
 
     @Override
@@ -159,6 +156,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean existsById(String id) {
         return userRepo.existsById(id);
+    }
+
+    @Override
+    public List<User> findAllUsers(String id) {
+        return userRepo.findAll();
     }
 
 
