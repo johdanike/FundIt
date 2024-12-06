@@ -43,25 +43,6 @@ public class LoanServiceImpl implements LoanService {
         loanResponse.setLoanId(newLoanRequest.getLoanId());
         loanResponse.setUserId(newLoanRequest.getUserId());
 
-
-//        Loan userLoan = new Loan();
-//        userLoan.setIsPaid(loan.getIsPaid());
-//        userLoan.setDateTime(LocalDateTime.now());
-//        userLoan.setIsCollected(loan.getIsCollected());
-//        userLoan.setIsPaid(loan.getIsPaid());
-//        userLoan.setAmount(loan.getLoanAmount());
-//        userLoan.setPaymentPlan(PaymentPlan.valueOf(loan.getPaymentPlan()));
-//        userLoan.setInterestRate(loan.getInterestRate());
-//        userLoan.setLenderId(loan.getUserId());
-//        userLoan.setBorrowerId(loan.getUserId());
-//        userLoan.setIsPaid(loan.getIsPaid());
-//        userLoan.setIsCollected(loan.getIsCollected());
-//        loanRepository.save(userLoan);
-//        LoanResponse loanResponse = new LoanResponse();
-//        loanResponse.setMessage("Loan request successful");
-//        loanResponse.setLenderId(userLoan.getLenderId());
-//        loanResponse.setBorrowerId(userLoan.getBorrowerId());
-//        loanResponse.setLoanId(userLoan.getLoanID());
         return loanResponse;
     }
 
