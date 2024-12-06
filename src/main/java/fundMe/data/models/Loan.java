@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Document
 public class Loan {
     @Id
-    private String loanID;
+    private String loanId;
+    private String userId;
     private String borrowerId;
     private String lenderId;
     private Double amount;
@@ -20,4 +21,5 @@ public class Loan {
     private Boolean isCollected;
     private Boolean isPaid;
     private LocalDateTime dateTime;
+
 }

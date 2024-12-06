@@ -1,7 +1,7 @@
 package fundMe.services;
 
 import fundMe.data.models.PaymentPlan;
-import fundMe.data.repositories.LoanRepo;
+import fundMe.data.repositories.LoanRepository;
 import fundMe.dtos.request.LoanRequest;
 import fundMe.dtos.response.LoanResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +17,11 @@ public class LoanServiceImplTest {
     @Autowired
     private LoanServiceImpl loanService;
     private LoanRequest loanRequest;
+    @Autowired
+    private LoanRepository loanRepository;
 
     @BeforeEach
     public void setUp() {
-
 
         loanRequest = new LoanRequest();
         loanRequest.setLoanAmount(500_000.00);
@@ -28,13 +29,18 @@ public class LoanServiceImplTest {
         loanRequest.setIsPaid(false);
         loanRequest.setIsCollected(false);
         loanRequest.setInterestRate(0.05);
-        loanRequest.setPaymentPlan(String.valueOf(PaymentPlan.INSTALLMENT_PAY));
-
 
     }
 
     @Test
-    public void test_thatUserCanAddLoan(){;
+    public void test_thatUserCanAddLoan(){
+        loanRequest.setPaymentPlan(String.valueOf(PaymentPlan.INSTALLMENT_PAY));
+        LoanResponse loanResponse = loanService.getLoan(loanRequest);
+        assertNotNull(loanResponse);
+    }
+    @Test
+    public void test_thatUserCanAddLoan_forOneOffPaymentPlan(){
+        loanRequest.setPaymentPlan(String.valueOf(PaymentPlan.ONE_OFF_PAY));
         LoanResponse loanResponse = loanService.getLoan(loanRequest);
         assertNotNull(loanResponse);
     }

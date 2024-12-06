@@ -9,6 +9,7 @@ import fundMe.dtos.response.CreateUpdateResponse;
 import fundMe.dtos.response.CreateUserResponse;
 import fundMe.dtos.response.DeleteUserResponse;
 import fundMe.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/user")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest createUserRequest) {
         try{
             CreateUserResponse createUserResponse = userService.createUser(createUserRequest);
+
             return new ResponseEntity<>(new UserApiResponse(true, createUserResponse), HttpStatus.CREATED);
 
         }catch (UserNotFoundException e){
