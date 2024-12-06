@@ -23,12 +23,11 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public LoanResponse getLoan(LoanRequest loan) {
-        checkIfUserExists(loan.getUserId());
+//        checkIfUserExists(loan.getUserId());
 
         Loan newLoanRequest = new Loan();
         newLoanRequest.setAmount(loan.getLoanAmount());
         newLoanRequest.setPaymentPlan(PaymentPlan.valueOf(loan.getPaymentPlan()));
-        newLoanRequest.setUserId(loan.getUserId());
         newLoanRequest.setIsPaid(loan.getIsPaid());
         newLoanRequest.setInterestRate(loan.getInterestRate());
         newLoanRequest.setIsCollected(loan.getIsCollected());
