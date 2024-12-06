@@ -5,22 +5,23 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+
 @Data
 @Document
 public class User {
     @Id
-    @DBRef
     private String id;
-    @DBRef
     private String firstName;
-    @DBRef
     private String lastName;
-    @DBRef
+    private String username;
     private String email;
-    @DBRef
     private String password;
-    @DBRef
     private String NIN;
-    @DBRef
     private Role role;
+    private LocalDateTime createdAt;
+    private boolean isRegistered;
+    private boolean isLoggedIn;
 }
