@@ -2,7 +2,7 @@ package fundMe.services;
 
 import fundMe.data.models.Role;
 import fundMe.data.models.User;
-import fundMe.data.repositories.UserRepo;
+import fundMe.data.repositories.UserRepository;
 import fundMe.dtos.request.CreateUserRequest;
 import fundMe.dtos.request.UpdateUserRequest;
 import fundMe.dtos.response.CreateUpdateResponse;
@@ -21,12 +21,12 @@ public class UserServiceImplTest {
     @Autowired
     UserService userService;
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
     private CreateUserRequest request;
 
     @BeforeEach
     public void setUp() {
-        userRepo.deleteAll();
+        userRepository.deleteAll();
 
         request = new CreateUserRequest();
         request.setFirstName("John");
@@ -62,7 +62,7 @@ public class UserServiceImplTest {
 
         User existingUser = new User();
         existingUser.setUsername("testuser");
-        userRepo.save(existingUser);
+        userRepository.save(existingUser);
         CreateUpdateResponse updateResponse = userService.updateUser(updateUserRequest);
         assertNotNull(updateResponse);
         assertEquals("Updated Successfully !!!!", updateResponse.getMessage());

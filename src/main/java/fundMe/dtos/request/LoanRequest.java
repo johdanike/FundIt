@@ -8,12 +8,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class LoanRequest {
-    private String  loanId;
+    private String lenderId;
+//    private String loanId;
+    private String borrowerId;
     private String userId;
     private Double loanAmount;
-    private LocalDateTime dateTime;
     private Boolean isPaid;
     private Boolean isCollected;
     private String paymentPlan;
     private Double interestRate;
+    private LocalDateTime dateTime;
 }

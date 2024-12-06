@@ -1,7 +1,7 @@
 package fundMe.services;
 
 import fundMe.data.models.Role;
-import fundMe.data.repositories.UserRepo;
+import fundMe.data.repositories.UserRepository;
 import fundMe.dtos.request.CreateAccountRequest;
 import fundMe.dtos.request.LoginRequest;
 import fundMe.dtos.response.CreateAccountResponse;
@@ -21,78 +21,61 @@ public class AuthenticationServiceImplTest {
 
     @Autowired
     private AuthenticationService authenticationService;
+    CreateAccountRequest createAccountRequest;
 
     @Autowired
-    UserRepo userRepo;
+    UserRepository userRepository;
     @BeforeEach
     void setUp() {
 
-        userRepo.deleteAll();
-    }
+        userRepository.deleteAll();
 
+        createAccountRequest = new CreateAccountRequest();
+        createAccountRequest.setFirstName("Iam");
+        createAccountRequest.setLastName("Fabulous");
+        createAccountRequest.setUsername("iamFabulous");
+        createAccountRequest.setPassword("123456");
+        createAccountRequest.setNIN("123456789");
+        createAccountRequest.setEmail("test@test.com");
+
+    }
 
     @Test
     public void testThatUserCanRegister() {
-        CreateAccountRequest request = new CreateAccountRequest();
-        request.setFirstName("Iam");
-        request.setLastName("Fabulous");
-        request.setUsername("iamFabulous");
-        request.setPassword("123456");
-        request.setPassword("password");
-        request.setNIN("123456789");
-        request.setEmail("test@test.com");
-        request.setRole(Role.BORROWER);
-        CreateAccountResponse response = authenticationService.Register(request);
+        createAccountRequest.setRole(Role.BORROWER);
+        CreateAccountResponse response = authenticationService.Register(createAccountRequest);
         assertNotNull(response);
     }
-
     @Test
     public void testThatUserCanLogin() {
-        CreateAccountRequest request = new CreateAccountRequest();
-        request.setFirstName("Iam");
-        request.setLastName("Fabulous");
-        request.setUsername("iamFabulous");
-        request.setPassword("123456");
-        request.setNIN("123456789");
-        request.setEmail("test@test.com");
-        request.setRole(Role.BORROWER);
-        CreateAccountResponse response = authenticationService.Register(request);
+        createAccountRequest.setRole(Role.BORROWER);
+        CreateAccountResponse response = authenticationService.Register(createAccountRequest);
         assertNotNull(response);
-        assertEquals("Fabulous", request.getLastName());
-        assertEquals("Iam", request.getFirstName());
-
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.getUsername();
-        loginRequest.getPassword();
-        boolean loginResponse = authenticationService.login(loginRequest);
-        assertTrue( loginResponse);
-
-    }
-
-    @Test
-    public void testThatUserCanLogout() {
-        CreateAccountRequest request = new CreateAccountRequest();
-        request.setFirstName("Iam");
-        request.setLastName("Fabulous");
-        request.setUsername("iamFabulous");
-        request.setPassword("123456");
-        request.setNIN("123456789");
-        request.setEmail("test@test.com");
-        request.setRole(Role.BORROWER);
-        CreateAccountResponse response = authenticationService.Register(request);
-        assertNotNull(response);
+        assertEquals("Fabulous", createAccountRequest.getLastName());
+        assertEquals("Iam", createAccountRequest.getFirstName());
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername(loginRequest.getUsername());
-//        loginRequest.getUsername();
         loginRequest.setPassword(loginRequest.getPassword());
-//        loginRequest.getPassword();
         boolean loginResponse = authenticationService.login(loginRequest);
-        assertTrue( loginResponse);
-
-//        boolean logOut = authenticationService.logout();
-//        assertEquals("Logged Out Successfully", logOut);
-        assertTrue(authenticationService.logout());
+        assertTrue(loginResponse);
     }
+    @Test
+    public void testThatUserCanLogout() {
+        createAccountRequest.setRole(Role.BORROWER);
+        CreateAccountResponse response = authenticationService.Register(createAccountRequest);
+        assertNotNull(response);
+        assertEquals("Fabulous", createAccountRequest.getLastName());
+        assertEquals("Iam", createAccountRequest.getFirstName());
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername(loginRequest.getUsername());
+        loginRequest.setPassword(loginRequest.getPassword());
+        boolean loginResponse = authenticationService.login(loginRequest);
+        assertTrue(loginResponse);
+        boolean logoutResponse = authenticationService.logout();
+        assertTrue(logoutResponse);
+    }
+
 
 }

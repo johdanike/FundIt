@@ -10,4 +10,6 @@ public class LoanResponse {
     private String message;
     private String lenderId;
     private String borrowerId;
+    private String paymentPlan;
+    private String userId;
 }

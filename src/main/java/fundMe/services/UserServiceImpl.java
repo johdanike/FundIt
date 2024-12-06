@@ -4,7 +4,7 @@ import fundMe.Exceptions.UserAlreadyExistException;
 import fundMe.Exceptions.UserNameFieldCannotBeEmptyException;
 import fundMe.Exceptions.UserNotFoundException;
 import fundMe.data.models.User;
-import fundMe.data.repositories.UserRepo;
+import fundMe.data.repositories.UserRepository;
 import fundMe.dtos.request.CreateUserRequest;
 import fundMe.dtos.request.DeleteUserRequest;
 import fundMe.dtos.request.UpdateUserRequest;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     @Override
     public CreateUserResponse createUser(CreateUserRequest user) {
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
             newUser.setNIN(user.getNIN());
             newUser.setLoggedIn(true);
             newUser.setRegistered(true);
-            userRepo.save(newUser);
+            userRepository.save(newUser);
 
             CreateUserResponse response = new CreateUserResponse();
             response.setEmail(newUser.getEmail());
@@ -59,12 +59,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByEmail(String email) {
-        return userRepo.findByEmail(email).orElseThrow(() -> new UserNotFoundException("user not found"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("user not found"));
     }
 
     @Override
     public Optional<User> findUserByUsername(String username) {
-        User user = userRepo.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UserNotFoundException("User not found");
         }
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public CreateUpdateResponse updateUser(UpdateUserRequest userRequest) {
         UsernameUpdateUserRequestValidator(userRequest);
-        User existingUser = userRepo.findByUsername(userRequest.getUsername());
+        User existingUser = userRepository.findByUsername(userRequest.getUsername());
 
         if (existingUser != null) {
             existingUser.setPassword(userRequest.getPassword());
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
             existingUser.setLoggedIn(userRequest.isLoggedIn());
 
             try {
-                User updatedUser = userRepo.save(existingUser);
+                User updatedUser = userRepository.save(existingUser);
                 return getCreateUpdateResponse(updatedUser);
 
             } catch (Exception e) {
@@ -135,9 +135,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DeleteUserResponse deleteById(String id){
-        User user =  userRepo.findById(id)
+        User user =  userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("user not found"));
-        userRepo.delete(user);
+        userRepository.delete(user);
         DeleteUserResponse deleteUserResponse = new DeleteUserResponse();
         deleteUserResponse.setMessage("Deleted Successfully !!!!");
         deleteUserResponse.setId(user.getId());
@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DeleteUserResponse deleteAll(){
-        userRepo.deleteAll();
+        userRepository.deleteAll();
         DeleteUserResponse response = new DeleteUserResponse();
         response.setMessage("Deleted Successfully !!!!");
         return response;
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(String id) {
-        for (User user : userRepo.findAll()) {
+        for (User user : userRepository.findAll()) {
             ValidateUsernameAndPassword(new DeleteUserRequest(user.getUsername(), user.getPassword()));
             if(user.getId().equals(id)){
                 return user;
@@ -166,12 +166,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean existsById(String id) {
-        return userRepo.existsById(id);
+        return userRepository.existsById(id);
     }
 
     @Override
     public List<User> findAllUsers(String id) {
-        return userRepo.findAll();
+        return userRepository.findAll();
     }
 
 
